@@ -10,7 +10,7 @@
     "require": {
         "php": "^8.1",
         "fakerphp/faker": "^1.19",
-        "fruitcake/laravel-cors": "^2.0",
+        "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "jenssegers/agent": "^2.6",
         "laravel/fortify": "^1.6",

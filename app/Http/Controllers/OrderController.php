@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateorderRequest;
+use App\Http\Requests\UploadOrderCSV;
 use App\Http\Resources\OrderResource;
 use App\Services\OrderService;
+use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use App\Jobs\ImportOrderCSV;
 
 class OrderController extends Controller
 {
@@ -25,10 +29,27 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function upload_csv(UploadOrderCSV $request, OrderService $service,)
     {
-        //
+        if ($request->hasfile('order_csv_file')) {
+            $folder = null;
+            $file = $request->file('order_csv_file');
+            $filename = time() .'.' . $file->getClientOriginalExtension();
+            $rst = $this->upload($file, $folder, 'local', $filename);
+            if ($rst){
+                $order = $service->create($request->order_number, $request->account_name, $request->account_number, $request->order_date);
+                if ($order){
+                    ImportOrderCSV::dispatch($order, $filename);
+                }
+            }
+        }
     }
+
+    public function upload(UploadedFile $uploadedFile, $folder = null, $disk = 'local', $name)
+    {
+        $uploadedFile->storeAs($folder, $name, $disk);
+        return true;
+    }    
 
     /**
      * Store a newly created resource in storage.

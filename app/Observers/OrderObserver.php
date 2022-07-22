@@ -15,7 +15,7 @@ class OrderObserver
      */
     public function created(Order $order)
     {
-        OrderHistory::create(['order_id' => $order->id, 'Order Created']);
+        //OrderHistory::create(['order_id' => $order->id, 'Order Created']);
     }
 
     /**

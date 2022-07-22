@@ -19,6 +19,8 @@ Route::middleware('guest')->group(
     }
 );
 
+Route::post('/orders/create', [OrderController::class, 'upload_csv']);
+
 Route::middleware('auth:sanctum')->group(
     function () {
         Route::delete('/auth/token', [TokenAuthController::class, 'destroy']);

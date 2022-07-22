@@ -9,7 +9,20 @@ use Illuminate\Support\Collection;
 
 class OrderService
 {
-
+    public function create($order_number, $account_name, $account_number, $order_date): Order
+    {
+        $order = Order::create(
+            [
+                'account_name' => $account_name,
+                'account_number' => $account_number,
+                'order_number' => $order_number,
+                'order_date' => $order_date,
+                'status' => OrderStatus::DRAFT
+            ]
+        );
+        return $order;
+    }
+/* 
     public function create(StoreOrderRequest $request): Order
     {
         $order = new Order(
@@ -39,5 +52,5 @@ class OrderService
         }
 
         return $order;
-    }
+    } */
 }
